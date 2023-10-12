@@ -1,7 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://qxsfmvf8mun"]
+[gd_scene load_steps=8 format=3 uid="uid://qxsfmvf8mun"]
 
 [ext_resource type="Script" path="res://scripts/Player.gd" id="1_duexp"]
 [ext_resource type="Texture2D" uid="uid://ck7ajk6uvwura" path="res://sprites/blasterD.png" id="2_n5gob"]
+[ext_resource type="AudioStream" uid="uid://dki3c0vudiuyp" path="res://audio/laserShoot.wav" id="3_m44hw"]
+[ext_resource type="AudioStream" uid="uid://covjg4psw0tgf" path="res://audio/explosion.wav" id="4_df1rj"]
+[ext_resource type="AudioStream" uid="uid://5diujogxh5yd" path="res://audio/blipSelect.wav" id="5_xk4tl"]
 
 [sub_resource type="CanvasTexture" id="CanvasTexture_2klor"]
 
@@ -32,3 +35,12 @@ position = Vector2(0.233334, -0.0666667)
 scale = Vector2(0.00807953, 0.00741667)
 texture = ExtResource("2_n5gob")
 flip_h = true
+
+[node name="GunSound" type="AudioStreamPlayer2D" parent="Gun"]
+stream = ExtResource("3_m44hw")
+
+[node name="DamageSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("4_df1rj")
+
+[node name="JumpSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("5_xk4tl")

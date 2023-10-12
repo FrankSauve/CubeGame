@@ -59,6 +59,16 @@ offset_bottom = 976.0
 theme_override_fonts/font = ExtResource("2_7t1vo")
 theme_override_font_sizes/font_size = 70
 
+[node name="Info" type="Label" parent="."]
+layout_mode = 0
+offset_left = 640.0
+offset_top = 612.0
+offset_right = 1176.0
+offset_bottom = 635.0
+theme_override_fonts/font = ExtResource("2_7t1vo")
+theme_override_font_sizes/font_size = 25
+text = "Shoot the red enemies and collect the yellow coins"
+
 [connection signal="pressed" from="PlayButton" to="." method="_on_button_pressed"]
 [connection signal="pressed" from="PlayButton" to="." method="_on_play_button_pressed"]
 [connection signal="pressed" from="QuitButton" to="." method="_on_button_pressed"]

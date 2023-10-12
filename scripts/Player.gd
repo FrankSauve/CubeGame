@@ -58,6 +58,7 @@ func update_x_velocity(delta):
 func update_y_velocity(delta):
 	if Input.is_action_just_pressed("jump"):
 		if current_jumps < max_jumps:
+			$JumpSound.play()
 			current_jumps += 1
 			velocity.y = -jump_speed
 	else:
@@ -70,6 +71,8 @@ func shoot():
 	bullet.position = $Gun/BulletMarker2D.global_position
 	bullet.rotation = (get_global_mouse_position() - bullet.position).angle()
 	bullet.velocity = get_global_mouse_position() - bullet.position
+	
+	$Gun/GunSound.play()
 	
 func update_gun_postion():
 	$Gun.look_at(get_global_mouse_position())
@@ -90,6 +93,9 @@ func update_enemy_damage():
 		enemy.connect("on_damage_player", Callable(self, "update_health"))
 		
 func update_health(value):
+	if value < 0:
+		$DamageSound.play()
+	
 	health += value
 	on_health_changed.emit(health)
 	

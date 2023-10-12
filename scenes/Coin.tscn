@@ -1,6 +1,7 @@
-[gd_scene load_steps=4 format=3 uid="uid://5agi5hur2o0b"]
+[gd_scene load_steps=5 format=3 uid="uid://5agi5hur2o0b"]
 
 [ext_resource type="Script" path="res://scripts/Coin.gd" id="1_6gw2u"]
+[ext_resource type="AudioStream" uid="uid://b25cvhgjdep5j" path="res://audio/pickupCoin.wav" id="2_7fmx5"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_7ne15"]
 size = Vector2(1.05, 1.05)
@@ -21,5 +22,8 @@ shape = SubResource("RectangleShape2D_7ne15")
 [node name="Sprite2D" type="Sprite2D" parent="."]
 modulate = Color(1, 1, 0, 1)
 texture = SubResource("CanvasTexture_ucrv3")
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("2_7fmx5")
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]

@@ -15,5 +15,8 @@ func _process(delta):
 
 
 func _on_body_entered(body):
+	$AudioStreamPlayer2D.play()
 	on_coin_collected.emit(point_value)
+	$Sprite2D.hide()
+	await $AudioStreamPlayer2D.finished
 	queue_free()

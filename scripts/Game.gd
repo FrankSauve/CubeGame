@@ -20,6 +20,10 @@ signal on_score_updated
 func _ready():
 	var player = get_tree().get_nodes_in_group("player")[0]
 	player.connect("on_died", Callable(self, "game_over"))
+	
+	var killzone = get_tree().get_nodes_in_group("killzone")[0]
+	killzone.connect("on_player_killed_by_zone", Callable(self, "game_over"))
+	
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
@@ -62,7 +66,6 @@ func spawn_coins(delta):
 		time_since_coin_spawn = 0
 	else:
 		time_since_coin_spawn += delta
-	
 
 func listen_for_score_updates():
 	var enemies = get_tree().get_nodes_in_group("enemy")
