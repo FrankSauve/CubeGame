@@ -1,9 +1,10 @@
-[gd_scene load_steps=8 format=3 uid="uid://bbaxpg8nmsdqg"]
+[gd_scene load_steps=9 format=3 uid="uid://bbaxpg8nmsdqg"]
 
 [ext_resource type="Script" path="res://scripts/Game.gd" id="1_erc42"]
 [ext_resource type="PackedScene" uid="uid://qxsfmvf8mun" path="res://scenes/player.tscn" id="2_8bhme"]
 [ext_resource type="Script" path="res://scripts/Killzone.gd" id="3_bh8h5"]
 [ext_resource type="PackedScene" uid="uid://bl74t1gls0kls" path="res://scenes/hud.tscn" id="4_ycahk"]
+[ext_resource type="PackedScene" uid="uid://5agi5hur2o0b" path="res://scenes/Coin.tscn" id="5_kkn07"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_i7ce4"]
 size = Vector2(9.98, 9.9)
@@ -75,5 +76,8 @@ script = ExtResource("3_bh8h5")
 shape = SubResource("RectangleShape2D_jfyag")
 
 [node name="Control" parent="." instance=ExtResource("4_ycahk")]
+
+[node name="Coin" parent="." instance=ExtResource("5_kkn07")]
+position = Vector2(1315, 736)
 
 [connection signal="body_entered" from="Killzone" to="Killzone" method="_on_body_entered"]
