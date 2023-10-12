@@ -1,0 +1,32 @@
+[gd_scene load_steps=3 format=3 uid="uid://bl74t1gls0kls"]
+
+[ext_resource type="Script" path="res://scripts/hud.gd" id="1_7ushh"]
+[ext_resource type="FontFile" uid="uid://b77dybflryxs4" path="res://Pixeboy-z8XGD.ttf" id="2_7x78h"]
+
+[node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_7ushh")
+
+[node name="ScoreLabel" type="Label" parent="."]
+layout_mode = 0
+offset_left = 24.0
+offset_top = 7.0
+offset_right = 277.0
+offset_bottom = 93.0
+theme_override_fonts/font = ExtResource("2_7x78h")
+theme_override_font_sizes/font_size = 100
+
+[node name="HealthBar" type="ProgressBar" parent="."]
+modulate = Color(0.290196, 0.988235, 0, 1)
+layout_mode = 0
+offset_left = 1384.0
+offset_top = 24.0
+offset_right = 1740.0
+offset_bottom = 63.0
+value = 100.0
+show_percentage = false

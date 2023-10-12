@@ -6,20 +6,27 @@ extends CharacterBody2D
 @export var jump_speed: float = 500
 @export var max_jumps: int = 2
 @export var fire_rate: float = 0.2
+@export var max_health = 100
 
 var current_jumps: int = 0
 var is_gun_flipped = false
 var time_since_last_shoot: float = 0
+var health: int
 
 const bulletPath = preload('res://scenes/Bullet.tscn')
 
+signal on_health_changed
+signal on_died
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	pass
+	health = max_health
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	update_gun_postion()
+	
+	update_enemy_damage()
 	
 	if is_on_floor():
 		current_jumps = 0
@@ -76,3 +83,18 @@ func update_gun_postion():
 		$Gun/BlasterD.flip_v = false
 		rotation = 0
 		is_gun_flipped = false
+
+func update_enemy_damage():
+	var enemies = get_tree().get_nodes_in_group("enemy")
+	for enemy in enemies:
+		enemy.connect("on_damage_player", Callable(self, "update_health"))
+		
+func update_health(value):
+	health += value
+	on_health_changed.emit(health)
+	
+	if health <= 0:
+		die()
+
+func die():
+	on_died.emit()

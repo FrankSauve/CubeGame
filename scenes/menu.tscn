@@ -1,0 +1,65 @@
+[gd_scene load_steps=3 format=3 uid="uid://c8scv1q6fhjkg"]
+
+[ext_resource type="Script" path="res://scripts/menu.gd" id="1_w3by5"]
+[ext_resource type="FontFile" uid="uid://b77dybflryxs4" path="res://Pixeboy-z8XGD.ttf" id="2_7t1vo"]
+
+[node name="menu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_w3by5")
+
+[node name="PlayButton" type="Button" parent="."]
+layout_mode = 0
+offset_left = 806.0
+offset_top = 406.0
+offset_right = 984.0
+offset_bottom = 465.0
+theme_override_fonts/font = ExtResource("2_7t1vo")
+theme_override_font_sizes/font_size = 60
+text = "PLAY"
+
+[node name="QuitButton" type="Button" parent="."]
+modulate = Color(1, 0.176471, 0.282353, 1)
+offset_left = 807.0
+offset_top = 511.0
+offset_right = 985.0
+offset_bottom = 570.0
+theme_override_fonts/font = ExtResource("2_7t1vo")
+theme_override_font_sizes/font_size = 60
+text = "QUIT"
+
+[node name="GameTitle" type="Label" parent="."]
+layout_mode = 0
+offset_left = 578.0
+offset_top = 259.0
+offset_right = 1214.0
+offset_bottom = 390.0
+theme_override_fonts/font = ExtResource("2_7t1vo")
+theme_override_font_sizes/font_size = 120
+text = "Cube Shooter"
+
+[node name="LastScore" type="Label" parent="."]
+layout_mode = 0
+offset_left = 22.0
+offset_top = 768.0
+offset_right = 462.0
+offset_bottom = 853.0
+theme_override_fonts/font = ExtResource("2_7t1vo")
+theme_override_font_sizes/font_size = 70
+
+[node name="HighScore" type="Label" parent="."]
+offset_left = 22.0
+offset_top = 891.0
+offset_right = 462.0
+offset_bottom = 976.0
+theme_override_fonts/font = ExtResource("2_7t1vo")
+theme_override_font_sizes/font_size = 70
+
+[connection signal="pressed" from="PlayButton" to="." method="_on_button_pressed"]
+[connection signal="pressed" from="PlayButton" to="." method="_on_play_button_pressed"]
+[connection signal="pressed" from="QuitButton" to="." method="_on_button_pressed"]
+[connection signal="pressed" from="QuitButton" to="." method="_on_quit_button_pressed"]
