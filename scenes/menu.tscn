@@ -24,6 +24,7 @@ text = "PLAY"
 
 [node name="QuitButton" type="Button" parent="."]
 modulate = Color(1, 0.176471, 0.282353, 1)
+layout_mode = 0
 offset_left = 807.0
 offset_top = 511.0
 offset_right = 985.0
@@ -52,6 +53,7 @@ theme_override_fonts/font = ExtResource("2_7t1vo")
 theme_override_font_sizes/font_size = 70
 
 [node name="HighScore" type="Label" parent="."]
+layout_mode = 0
 offset_left = 22.0
 offset_top = 891.0
 offset_right = 462.0
@@ -61,15 +63,24 @@ theme_override_font_sizes/font_size = 70
 
 [node name="Info" type="Label" parent="."]
 layout_mode = 0
-offset_left = 640.0
-offset_top = 612.0
-offset_right = 1176.0
-offset_bottom = 635.0
+offset_left = 612.0
+offset_top = 606.0
+offset_right = 1180.0
+offset_bottom = 750.0
 theme_override_fonts/font = ExtResource("2_7t1vo")
 theme_override_font_sizes/font_size = 25
-text = "Shoot the red enemies and collect the yellow coins"
+text = "Shoot the red enemies and collect the yellow coins
 
-[connection signal="pressed" from="PlayButton" to="." method="_on_button_pressed"]
+WASD to move
+mouse to aim and shoot
+Space to jump/doublejump
+Shift to dash
+
+ Dashing gives 0.2 second of iframes and kills enemies!
+"
+horizontal_alignment = 1
+
 [connection signal="pressed" from="PlayButton" to="." method="_on_play_button_pressed"]
-[connection signal="pressed" from="QuitButton" to="." method="_on_button_pressed"]
+[connection signal="pressed" from="PlayButton" to="." method="_on_button_pressed"]
 [connection signal="pressed" from="QuitButton" to="." method="_on_quit_button_pressed"]
+[connection signal="pressed" from="QuitButton" to="." method="_on_button_pressed"]

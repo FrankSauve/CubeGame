@@ -7,10 +7,6 @@ func _ready():
 	
 	var main = get_tree().get_nodes_in_group("main")[0]
 	main.connect("on_score_updated", Callable(self, "update_score_board"))
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	pass
 	
 func update_score_board(score):
 	$ScoreLabel.text = str(score)

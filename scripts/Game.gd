@@ -1,18 +1,22 @@
 extends Node
 
-@export var enemy_spawn_timer: float = 1
-@export var coin_spawn_timer: float = 5
-@export var spawn_distance_from_ceiling = 400
-@export var max_num_emenies_per_spawn = 3
+@export var enemy_spawn_timer: float
+@export var coin_spawn_timer: float 
+@export var spawn_distance_from_ceiling: float
+@export var max_num_emenies_per_spawn: int
+@export var is_spawn_enemies: bool
+
+@export var enemy_scene: PackedScene
+@export var coin_scene: PackedScene
+@export var score_popup_scene: PackedScene
+@export var coin_collected_effect_scene: PackedScene
 
 var time_since_enemy_spawn = 0
 var num_emenies_per_spawn = 2
 var time_since_coin_spawn = 0
 var score: int = 0
 var high_score: int = 0
-
-const enemyPath = preload('res://scenes/Enemy.tscn')
-const coinPath = preload('res://scenes/Coin.tscn')
+var is_game_over = false
 
 signal on_score_updated
 
@@ -27,11 +31,14 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	spawn_enemies(delta)
-	spawn_coins(delta)
-	listen_for_score_updates()
+	if !is_game_over:
+		if is_spawn_enemies:
+			spawn_enemies(delta)
+		spawn_coins(delta)
+		listen_for_score_updates()
 		
 func game_over():
+	is_game_over = true
 	# Remove enemies
 	var enemies = get_tree().get_nodes_in_group("enemy")
 	for enemy in enemies:
@@ -43,15 +50,18 @@ func game_over():
 		coin.queue_free()
 	
 	save_game()
+
+	$GameOverSound.play()
+	await $GameOverSound.finished
 	
 	get_tree().change_scene_to_file('res://scenes/menu.tscn')
 
 func spawn_enemies(delta):
 	if time_since_enemy_spawn > enemy_spawn_timer:
 		for i in range(0, num_emenies_per_spawn):
-			var enemy = enemyPath.instantiate()
-			enemy.position = Vector2(randf_range(0, get_viewport().get_visible_rect().size.x), randf_range(0, spawn_distance_from_ceiling))
-			get_parent().add_child(enemy)
+			var enemy_instance = enemy_scene.instantiate()
+			enemy_instance.position = Vector2(randf_range(0, get_viewport().get_visible_rect().size.x), randf_range(0, spawn_distance_from_ceiling))
+			get_parent().add_child(enemy_instance)
 		
 		time_since_enemy_spawn = 0
 		num_emenies_per_spawn = clamp(num_emenies_per_spawn + 1, 0, max_num_emenies_per_spawn)
@@ -60,9 +70,9 @@ func spawn_enemies(delta):
 		
 func spawn_coins(delta):
 	if time_since_coin_spawn > coin_spawn_timer:
-		var coin = coinPath.instantiate()
-		coin.position = Vector2(randf_range(100, get_viewport().get_visible_rect().size.x - 100), randf_range(450, 750)) # This is jank but whatever
-		get_parent().add_child(coin)
+		var coin_instance = coin_scene.instantiate()
+		coin_instance.position = Vector2(randf_range(100, get_viewport().get_visible_rect().size.x - 100), randf_range(450, 750)) # This is jank but whatever
+		get_parent().add_child(coin_instance)
 		time_since_coin_spawn = 0
 	else:
 		time_since_coin_spawn += delta
@@ -70,15 +80,27 @@ func spawn_coins(delta):
 func listen_for_score_updates():
 	var enemies = get_tree().get_nodes_in_group("enemy")
 	for enemy in enemies:
-		enemy.connect("on_enemy_killed", Callable(self, "update_score"))
+		if !enemy.is_connected("on_enemy_killed", Callable(self, "update_score")):
+			enemy.connect("on_enemy_killed", Callable(self, "update_score"))
 		
 	var coins = get_tree().get_nodes_in_group("coin")
 	for coin in coins:
-		coin.connect("on_coin_collected", Callable(self, "update_score"))
-		
-func update_score(value):
+		if !coin.is_connected("on_coin_collected", Callable(self, "handle_coin_collected")):
+			coin.connect("on_coin_collected", Callable(self, "handle_coin_collected"))
+
+func handle_coin_collected(value, position):
+	update_score(value, position)
+	var coin_collected_effect_instance = coin_collected_effect_scene.instantiate()
+	coin_collected_effect_instance.position = position
+	get_parent().add_child(coin_collected_effect_instance)
+
+func update_score(value, position):
 	score += value
 	on_score_updated.emit(score)
+	
+	var score_popup_instance = score_popup_scene.instantiate()
+	get_parent().add_child(score_popup_instance)
+	score_popup_instance.start(value, position)
 
 func save_game():
 	load_game()

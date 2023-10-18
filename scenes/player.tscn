@@ -1,10 +1,16 @@
-[gd_scene load_steps=8 format=3 uid="uid://qxsfmvf8mun"]
+[gd_scene load_steps=14 format=3 uid="uid://qxsfmvf8mun"]
 
 [ext_resource type="Script" path="res://scripts/Player.gd" id="1_duexp"]
+[ext_resource type="PackedScene" uid="uid://o6ssff57604w" path="res://scenes/score_popup.tscn" id="2_fs8g5"]
 [ext_resource type="Texture2D" uid="uid://ck7ajk6uvwura" path="res://sprites/blasterD.png" id="2_n5gob"]
+[ext_resource type="PackedScene" uid="uid://chdapksos6678" path="res://scenes/Bullet.tscn" id="3_b0rqm"]
 [ext_resource type="AudioStream" uid="uid://dki3c0vudiuyp" path="res://audio/laserShoot.wav" id="3_m44hw"]
+[ext_resource type="PackedScene" uid="uid://ccq4sq7rb5uq8" path="res://fx/player_death_effect.tscn" id="4_bqpne"]
 [ext_resource type="AudioStream" uid="uid://covjg4psw0tgf" path="res://audio/explosion.wav" id="4_df1rj"]
+[ext_resource type="PackedScene" uid="uid://dusptb6l6la0n" path="res://fx/jump_effect.tscn" id="5_624rt"]
 [ext_resource type="AudioStream" uid="uid://5diujogxh5yd" path="res://audio/blipSelect.wav" id="5_xk4tl"]
+[ext_resource type="PackedScene" uid="uid://df7r6pyvtwlv0" path="res://scenes/dash_ghost.tscn" id="6_440vs"]
+[ext_resource type="AudioStream" uid="uid://mjsehm3j50ng" path="res://audio/dash.wav" id="10_xprmx"]
 
 [sub_resource type="CanvasTexture" id="CanvasTexture_2klor"]
 
@@ -15,6 +21,11 @@ size = Vector2(1, 1)
 scale = Vector2(50, 50)
 collision_layer = 4
 script = ExtResource("1_duexp")
+score_popup_scene = ExtResource("2_fs8g5")
+bullet_scene = ExtResource("3_b0rqm")
+player_death_effect_scene = ExtResource("4_bqpne")
+jump_effect_scene = ExtResource("5_624rt")
+dash_ghost_scene = ExtResource("6_440vs")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 modulate = Color(0, 1, 1, 1)
@@ -44,3 +55,18 @@ stream = ExtResource("4_df1rj")
 
 [node name="JumpSound" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("5_xk4tl")
+
+[node name="DashSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("10_xprmx")
+
+[node name="DashCooldown" type="Timer" parent="."]
+
+[node name="DashDuration" type="Timer" parent="."]
+wait_time = 0.2
+
+[node name="DashGhostTimer" type="Timer" parent="."]
+wait_time = 0.03
+
+[connection signal="timeout" from="DashCooldown" to="." method="_on_dash_cooldown_timeout"]
+[connection signal="timeout" from="DashDuration" to="." method="_on_dash_duration_timeout"]
+[connection signal="timeout" from="DashGhostTimer" to="." method="_on_dash_ghost_timer_timeout"]

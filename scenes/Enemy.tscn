@@ -1,6 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://bapxhhgh6pkbt"]
+[gd_scene load_steps=7 format=3 uid="uid://bapxhhgh6pkbt"]
 
 [ext_resource type="Script" path="res://scripts/Enemy.gd" id="1_yovdq"]
+[ext_resource type="PackedScene" uid="uid://bdl1ttp8vim75" path="res://fx/kill_effect.tscn" id="2_yjwsk"]
+[ext_resource type="PackedScene" uid="uid://o6ssff57604w" path="res://scenes/score_popup.tscn" id="3_birc1"]
 
 [sub_resource type="CanvasTexture" id="CanvasTexture_0dls3"]
 
@@ -15,6 +17,8 @@ scale = Vector2(40, 40)
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("1_yovdq")
+kill_effect_scene = ExtResource("2_yjwsk")
+score_popup_scene = ExtResource("3_birc1")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 modulate = Color(0.917647, 0.160784, 0, 1)
