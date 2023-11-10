@@ -19,7 +19,6 @@ extends CharacterBody2D
 var current_jumps: int = 0
 var can_dash = true
 var is_dashing = false
-var is_gun_flipped = false
 var time_since_last_shoot: float = 0
 var health: int
 
@@ -33,7 +32,7 @@ func _ready():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	if can_move:
-		update_gun_postion()
+		update_gun_position()
 		update_enemy_damage()
 	
 		if is_on_floor():
@@ -83,18 +82,16 @@ func shoot():
 	
 	$Gun/GunSound.play()
 	
-func update_gun_postion():
+func update_gun_position():
 	$Gun.look_at(get_global_mouse_position())
 	
-	if get_global_mouse_position() < position and !is_gun_flipped:
+	if get_global_mouse_position() < position and !$Gun/BlasterD.flip_v:
 		rotation = PI
 		$Gun/BlasterD.flip_v = true
-		is_gun_flipped = true
 		
-	if get_global_mouse_position() > position and is_gun_flipped:
+	if get_global_mouse_position() > position and $Gun/BlasterD.flip_v:
 		$Gun/BlasterD.flip_v = false
 		rotation = 0
-		is_gun_flipped = false
 
 func update_enemy_damage():
 	var enemies = get_tree().get_nodes_in_group("enemy")
@@ -118,13 +115,6 @@ func update_health(value):
 
 func jump():
 	$JumpSound.play()
-	
-	# Commented because the jump effect doesn't look very good
-	# but I'm keeping the functionality here just in case
-	#var jump_effect = jump_effect_scene.instantiate()
-	#jump_effect.position = position
-	#get_tree().root.get_child(0).add_child(jump_effect)
-	
 	current_jumps += 1
 	velocity.y = -jump_speed
 	

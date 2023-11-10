@@ -3,7 +3,7 @@ extends Node
 @export var enemy_spawn_timer: float
 @export var coin_spawn_timer: float 
 @export var spawn_distance_from_ceiling: float
-@export var max_num_emenies_per_spawn: int
+@export var max_num_enemies_per_spawn: int
 @export var is_spawn_enemies: bool
 
 @export var enemy_scene: PackedScene
@@ -12,7 +12,7 @@ extends Node
 @export var coin_collected_effect_scene: PackedScene
 
 var time_since_enemy_spawn = 0
-var num_emenies_per_spawn = 2
+var num_enemies_per_spawn = 2
 var time_since_coin_spawn = 0
 var score: int = 0
 var high_score: int = 0
@@ -58,13 +58,13 @@ func game_over():
 
 func spawn_enemies(delta):
 	if time_since_enemy_spawn > enemy_spawn_timer:
-		for i in range(0, num_emenies_per_spawn):
+		for i in range(0, num_enemies_per_spawn):
 			var enemy_instance = enemy_scene.instantiate()
 			enemy_instance.position = Vector2(randf_range(0, get_viewport().get_visible_rect().size.x), randf_range(0, spawn_distance_from_ceiling))
 			get_parent().add_child(enemy_instance)
 		
 		time_since_enemy_spawn = 0
-		num_emenies_per_spawn = clamp(num_emenies_per_spawn + 1, 0, max_num_emenies_per_spawn)
+		max_num_enemies_per_spawn = clamp(num_enemies_per_spawn + 1, 0, max_num_enemies_per_spawn)
 	else:
 		time_since_enemy_spawn += delta
 		
